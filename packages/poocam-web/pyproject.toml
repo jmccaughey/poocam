@@ -1,0 +1,21 @@
+[project]
+name = "poocam-web"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.121.0",
+    "poocam-core",
+    "poocam-pi",
+    "uvicorn>=0.38.0",
+    "websockets>=15.0.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.9.6,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+poocam-core = { workspace = true }
+poocam-pi = { workspace = true }

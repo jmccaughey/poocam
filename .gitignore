@@ -1,0 +1,45 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env/
+venv/
+env/
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Installer logs and build artifacts
+pip-log.txt
+pip-delete-this-directory.txt
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Test and coverage reports
+.tox/
+.coverage
+htmlcov/
+.cache/
+nosetests.xml
+coverage.xml
+
+# Sensitive data and local configurations
+*.log
+local_settings.py
+db.sqlite3  # For Django projects using SQLite
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS generated files
+.DS_Store
+Thumbs.db
