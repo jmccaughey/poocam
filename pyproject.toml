@@ -5,6 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "poocam-core",
+    "poocam-web",
     "pytest>=8.4.2",
 ]
 
@@ -19,7 +21,12 @@ members = [
     "packages/poocam-core",
     "packages/poocam-web",
     "packages/poocam-pi",
+    "tests",
 ]
+
+[tool.uv.sources]
+poocam-core = { workspace = true }
+poocam-web = { workspace = true }
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

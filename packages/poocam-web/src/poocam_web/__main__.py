@@ -58,4 +58,4 @@ async def websocket_ir(websocket: WebSocket):
 
 if __name__ == "__main__":
     print(f"invoking uvicorn.run...")
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")
+    uvicorn.run("__main__:app", host="0.0.0.0", port=8000, log_level="info")

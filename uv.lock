@@ -7,6 +7,7 @@ members = [
     "poocam",
     "poocam-core",
     "poocam-pi",
+    "poocam-tests",
     "poocam-web",
 ]
 
@@ -145,6 +146,8 @@ name = "poocam"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "poocam-core" },
+    { name = "poocam-web" },
     { name = "pytest" },
 ]
 
@@ -155,7 +158,11 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pytest", specifier = ">=8.4.2" }]
+requires-dist = [
+    { name = "poocam-core", editable = "packages/poocam-core" },
+    { name = "poocam-web", editable = "packages/poocam-web" },
+    { name = "pytest", specifier = ">=8.4.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [
@@ -181,6 +188,21 @@ dependencies = [
 requires-dist = [
     { name = "board", specifier = ">=1.0" },
     { name = "poocam-core", editable = "packages/poocam-core" },
+]
+
+[[package]]
+name = "poocam-tests"
+version = "0.1.0"
+source = { editable = "tests" }
+dependencies = [
+    { name = "poocam-core" },
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "poocam-core", editable = "packages/poocam-core" },
+    { name = "pytest", specifier = ">=8.4.2" },
 ]
 
 [[package]]
