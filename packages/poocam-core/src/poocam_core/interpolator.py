@@ -8,4 +8,4 @@ class Interpolator:
 
     def interpolate(self, data: list[list[float]]) -> list[list[float]]:
         resized_data = zoom(data, [self.x_zoom, self.y_zoom], order=3)
-        return resized_data
+        return resized_data.tolist()

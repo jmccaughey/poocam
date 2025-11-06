@@ -28,25 +28,7 @@ static_base: str = ""
 if (len(sys.argv) > 1):
     static_base = sys.argv[1]
 
-# Mount the static directory
 app.mount("/static", StaticFiles(directory=f"{static_base}static"), name="static")
-
-# def print_pixels(pixels) -> str:
-#     string_buffer = io.StringIO()
-#     string_buffer.write("[")
-#     for index, row in enumerate(pixels):
-#         # Pad to 1 decimal place
-#         # print([f"{temp:.1f}" for temp in row], end="")
-#         string_buffer.write("[")
-#         for subindex, temp in enumerate(row):
-#             string_buffer.write(f"{temp:.1f}")
-#             if subindex < len(row) - 1:
-#                 string_buffer.write(",")
-#         string_buffer.write("]")
-#         if index < len(pixels) - 1:
-#             string_buffer.write(",")
-#     string_buffer.write("]")
-#     return string_buffer.getvalue()
 
 @app.websocket("/ws/ir")
 async def websocket_ir(websocket: WebSocket):
@@ -55,8 +37,8 @@ async def websocket_ir(websocket: WebSocket):
     print("...got connection")
     while True:
         sensor_data: list[list[float]] = sensor.read()
-        scaled_data = inerpolator.interpolate(sensor_data)
-        data = sensor_data_formatter.format_sensor_data(scaled_data.tolist())
+        scaled_data: list[list[float]] = inerpolator.interpolate(sensor_data)
+        data = sensor_data_formatter.format_sensor_data(scaled_data)
         await websocket.send_bytes(data)
         await asyncio.sleep(0.1)
 
