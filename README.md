@@ -12,7 +12,7 @@ Open web browser to view (fake) thermal data:
 open "http://<IP>:8000/static/index.html
 ```
 
-To view real thermal data from a `grideye` https://www.adafruit.com/product/3538
+To view real thermal data from a Panasonic `grideye` https://www.adafruit.com/product/3538
 
 1. Add dependencies:
 ```shell
@@ -23,3 +23,4 @@ uv add --package poocam-pi adafruit-blinka adafruit-circuitpython-amg88xx rpi-gp
   [uncomment] `# from poocam_pi.grid_eye_pi import GridEyeSensor`
   [replace RandomSensor] `sensor: SensorDataSource = GridEyeSensor()`
 ```
+source: https://learn.adafruit.com/adafruit-amg8833-8x8-thermal-camera-sensor/raspberry-pi-thermal-camera

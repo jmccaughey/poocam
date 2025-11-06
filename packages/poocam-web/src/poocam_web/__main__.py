@@ -11,12 +11,14 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 
 from poocam_core.random_sensor import RandomSensor
+from poocam_core.interpolator import Interpolator
 from poocam_core.sensor_data_formatter import SensorDataFormatter
 from poocam_core.sensor_data_source import SensorDataSource
 # from poocam_pi.grid_eye_pi import GridEyeSensor
 
 sensor: SensorDataSource = RandomSensor(8, 8, 12.0, 30.0)
 # sensor: SensorDataSource = GridEyeSensor()
+inerpolator: Interpolator = Interpolator(8, 8)
 
 app = FastAPI()
 print(f"current dir: {os.getcwd()} args: {sys.argv}")
@@ -52,7 +54,9 @@ async def websocket_ir(websocket: WebSocket):
     await websocket.accept()
     print("...got connection")
     while True:
-        data = sensor_data_formatter.format_sensor_data(sensor.read())
+        sensor_data: list[list[float]] = sensor.read()
+        scaled_data = inerpolator.interpolate(sensor_data)
+        data = sensor_data_formatter.format_sensor_data(scaled_data.tolist())
         await websocket.send_bytes(data)
         await asyncio.sleep(0.1)
 

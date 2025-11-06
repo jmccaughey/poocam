@@ -1,3 +1,5 @@
+from poocam_core.random_sensor import RandomSensor
+from poocam_core.sensor_data_source import SensorDataSource
 from poocam_core.sensor_data_formatter import SensorDataFormatter
 import json
 
@@ -10,3 +12,11 @@ def test_matrix_to_json_returns_valid_json():
     result = formatter.format_sensor_data(matrix)
     parsed = json.loads(result)
     assert parsed == matrix
+
+def test_random_sensor():
+    sensor: SensorDataSource = RandomSensor(8, 8, 10.0, 35.0)
+    formatter: SensorDataFormatter = SensorDataFormatter()
+    red_data = sensor.read()
+    result = formatter.format_sensor_data(red_data)
+    parsed = json.loads(result)
+    assert parsed == red_data
