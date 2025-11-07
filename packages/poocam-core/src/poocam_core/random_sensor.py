@@ -9,7 +9,8 @@ class RandomSensor(SensorDataSource):
     Fake sensor that returns random numbers (for testing).
     """
 
-    def __init__(self, rows: int, cols: int, min_val: float, max_val: float):
+    def __init__(self, rows: int, cols: int, min_val: float, max_val: float, host: str = "0.0.0.0", port: int = 9090) -> None:
+        super().__init__(host = host, port=port)
         self.rows = rows
         self.cols = cols
         self.min = min_val
