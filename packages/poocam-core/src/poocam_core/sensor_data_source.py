@@ -25,7 +25,7 @@ class SensorDataSource(ABC):
                 sensor_data: list[list[float]] = self.read()
                 formatted_data: str = self.sensor_data_formatter.format_sensor_data(sensor_data)
                 conn.sendall(formatted_data.encode())
-                time.sleep(.1) # the back pressure. Otherwise, reads can make a tight loop
+                time.sleep(.1) # the back pressure. Otherwise, reads get into tight loop
         except (OSError, socket.error) as e:
             print(f"Error with client {addr}: {e}")
         finally:
