@@ -1,26 +1,40 @@
-Find warm things. 
+Find warm things: Technical Learnings of Thermal Sensor for Make Benefit Me
 
-Start FastAPI app that serves thermal data:
+Prototype for thermal data with live video overlay. 
 
+To try this without an actual Panasonic `grideye` sensor https://www.adafruit.com/product/3538
+
+1. Start test sensor that serves fake, random thermal data:
+```shell
+uv run -m poocam_core.random_sensor_process
+```
+2. In another terminal, start web app:
 ```shell
 uv run -m poocam_web packages/poocam-web/
 ```
-
-Open web browser to view (fake) thermal data:
-
+3. Open web browser to view (fake) thermal data:
 ```
-open "http://<IP>:8000/static/index.html
+open "http://localhost:8000/static/index.html"
 ```
 
-To view real thermal data from a Panasonic `grideye` https://www.adafruit.com/product/3538
+It looks like:
 
-1. Add dependencies:
+![](fake_thermal.jpg)
+
+To view _real_ thermal data from a Panasonic `grideye` https://www.adafruit.com/product/3538
+
+1. On Raspberry Pi, start the process that serves sensor data from attached `grideye`
 ```shell
-uv add --package poocam-pi adafruit-blinka adafruit-circuitpython-amg88xx rpi-gpio
+uv run -m poocam_pi
 ```
-2. Edit `packages/poocam-web/src/poocam_web/__main__.py`
+2. On your laptop, start web app. NOTE: laptop and Pi need to be on same network; _replace the last parameter_ with the IP of your Pi
 ```shell
-  [uncomment] `# from poocam_pi.grid_eye_pi import GridEyeSensor`
-  [replace RandomSensor] `sensor: SensorDataSource = GridEyeSensor()`
+uv run -m poocam_web packages/poocam-web/ 192.168.4.104 
 ```
+3. Also on your laptop, open http://localhost:8000/static/index.html The page will ask to use your camera to show thermal info blended with video. NOTE: there is currently an issue with thermal data not aligning with video
+
+It looks like: 
+
+![](real_thermal.jpg)
+
 source: https://learn.adafruit.com/adafruit-amg8833-8x8-thermal-camera-sensor/raspberry-pi-thermal-camera
