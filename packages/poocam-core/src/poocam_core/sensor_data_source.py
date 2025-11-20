@@ -23,6 +23,7 @@ class SensorDataSource(ABC):
         try:
             while True:
                 sensor_data: list[list[float]] = self.read()
+                # TODO: truncate floats to one decimal place
                 formatted_data: str = self.sensor_data_formatter.format_sensor_data(sensor_data)
                 conn.sendall(formatted_data.encode())
                 time.sleep(.1) # the back pressure. Otherwise, reads get into tight loop
