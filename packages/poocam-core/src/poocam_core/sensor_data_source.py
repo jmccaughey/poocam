@@ -3,16 +3,21 @@ from typing import List
 import socket
 import time
 
+from poocam_core.interpolator import Interpolator
 from poocam_core.sensor_data_formatter import SensorDataFormatter
 
 
 class SensorDataSource(ABC):
-    def __init__(self, host: str = "0.0.0.0", port: int = 9090) -> None:
+    def __init__(self, host: str = "0.0.0.0", port: int = 9090, zoom: int = 1) -> None:
         self.sensor_data_formatter: SensorDataFormatter = SensorDataFormatter()
         self.socket: socket.socket | None = None
         self.stop_requested = False
         self.host = host
         self.port = port
+        if zoom > 1:
+            self.interpolator = Interpolator(zoom, zoom)
+        else:
+            self.interpolator = None
 
     @abstractmethod
     def read(self) -> List[List[float]]:
@@ -24,9 +29,11 @@ class SensorDataSource(ABC):
             while True:
                 sensor_data: list[list[float]] = self.read()
                 # TODO: truncate floats to one decimal place
+                if self.interpolator:
+                    sensor_data = self.interpolator.interpolate(sensor_data)
                 formatted_data: str = self.sensor_data_formatter.format_sensor_data(sensor_data)
                 conn.sendall(formatted_data.encode())
-                time.sleep(.1) # the back pressure. Otherwise, reads get into tight loop
+                time.sleep(.15) # the back pressure. Otherwise, reads get into tight loop
         except (OSError, socket.error) as e:
             print(f"Error with client {addr}: {e}")
         finally:
