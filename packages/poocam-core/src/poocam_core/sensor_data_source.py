@@ -5,6 +5,7 @@ import time
 
 from poocam_core.interpolator import Interpolator
 from poocam_core.sensor_data_formatter import SensorDataFormatter
+from poocam_core.truncator import Truncator
 
 
 class SensorDataSource(ABC):
@@ -18,6 +19,7 @@ class SensorDataSource(ABC):
             self.interpolator = Interpolator(zoom, zoom)
         else:
             self.interpolator = None
+        self.truncator = Truncator()
 
     @abstractmethod
     def read(self) -> List[List[float]]:
@@ -31,6 +33,7 @@ class SensorDataSource(ABC):
                 # TODO: truncate floats to one decimal place
                 if self.interpolator:
                     sensor_data = self.interpolator.interpolate(sensor_data)
+                self.truncator.truncate(sensor_data)
                 formatted_data: str = self.sensor_data_formatter.format_sensor_data(sensor_data)
                 conn.sendall(formatted_data.encode())
                 time.sleep(.15) # the back pressure. Otherwise, reads get into tight loop

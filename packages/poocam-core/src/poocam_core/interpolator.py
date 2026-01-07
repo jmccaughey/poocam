@@ -1,5 +1,4 @@
 from scipy.ndimage import zoom
-import numpy as np
 
 class Interpolator:
     def __init__(self, x_zoom: int, y_zoom: int):
