@@ -8,4 +8,4 @@ class ThermInfo:
     epoch: float = field(default_factory=time.time)
 
     def to_json(self) -> str:
-        return json.dumps(asdict(self))
+        return json.dumps(asdict(self), separators=(',', ':'))

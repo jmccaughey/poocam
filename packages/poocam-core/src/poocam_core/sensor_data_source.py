@@ -4,13 +4,14 @@ import socket
 import time
 
 from poocam_core.interpolator import Interpolator
+from poocam_core.json_wrapper import JsonWrapper
 from poocam_core.sensor_data_formatter import SensorDataFormatter
 from poocam_core.truncator import Truncator
 
 
 class SensorDataSource(ABC):
     def __init__(self, host: str = "0.0.0.0", port: int = 9090, zoom: int = 1) -> None:
-        self.sensor_data_formatter: SensorDataFormatter = SensorDataFormatter()
+        self.json_wrapper: JsonWrapper = JsonWrapper()
         self.socket: socket.socket | None = None
         self.stop_requested = False
         self.host = host
@@ -33,8 +34,9 @@ class SensorDataSource(ABC):
                 # TODO: truncate floats to one decimal place
                 if self.interpolator:
                     sensor_data = self.interpolator.interpolate(sensor_data)
-                self.truncator.truncate(sensor_data)
-                formatted_data: str = self.sensor_data_formatter.format_sensor_data(sensor_data)
+                truncated_data: list[list[int]] = self.truncator.truncate_to_int(sensor_data)
+                # self.truncator.truncate(sensor_data)
+                formatted_data: str = self.json_wrapper.wrap(truncated_data) + '\n'
                 conn.sendall(formatted_data.encode())
                 time.sleep(.15) # the back pressure. Otherwise, reads get into tight loop
         except (OSError, socket.error) as e:
