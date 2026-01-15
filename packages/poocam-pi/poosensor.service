@@ -1,0 +1,13 @@
+[Unit]
+Description=Poo Sensor Service
+After=network.target
+
+[Service]
+Type=simple
+User=poosensor
+WorkingDirectory=/home/poosensor/poocam
+ExecStart=/usr/local/bin/uv run -m poocam_pi
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

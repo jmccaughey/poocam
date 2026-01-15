@@ -38,3 +38,17 @@ It looks like:
 ![](real_thermal.jpg)
 
 source: https://learn.adafruit.com/adafruit-amg8833-8x8-thermal-camera-sensor/raspberry-pi-thermal-camera
+
+Setup on Raspberry PI:
+```
+sudo useradd -r -m -c "Service User Account" -s /sbin/nologin poosensor
+curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_UNMANAGED_INSTALL="/usr/local/bin" sh
+sudo usermod -aG i2c poosensor
+sudo su
+cd /home/poosensor/
+sudo -u poosensor git clone "https://github.com/jmccaughey/poocam.git"
+cd poocam
+sudo -u poosensor uv run -m poocam_pi
+[copy poosensor.service to /etc/systemd/system/]
+sudo systemctl enable poosensor --now 
+```
