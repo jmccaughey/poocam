@@ -56,7 +56,7 @@ class SensorDataSource(ABC):
             try:
                 s.bind((self.host, self.port))
                 s.listen()
-                print(f"Server listening on {self.host}:{self.port}")
+                print(f"TCP server listening on {self.host}:{self.port}")
                 while not self.stop_requested:
                     try:
                         conn, addr = s.accept()
