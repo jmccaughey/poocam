@@ -14,7 +14,7 @@
 
 
 raw history:
-
+```
 sudo apt-get update
    29  sudo apt install git
    30  git clone https://github.com/jmccaughey/poocam.git
@@ -94,3 +94,4 @@ sudo apt-get update
   104  uv run -m poocam_core.random_sensor_process
   105  history
 
+```
