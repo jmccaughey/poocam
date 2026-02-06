@@ -1,4 +1,4 @@
-Find warm things: Technical Learnings of Thermal Sensor for Make Benefit Me
+## Find warm things: Technical Learnings of Thermal Sensor for Make Benefit Me
 
 Prototype for thermal data with live video overlay. 
 
