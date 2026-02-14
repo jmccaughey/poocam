@@ -20,7 +20,7 @@ class SensorDataSource(ABC):
             self.interpolator = Interpolator(zoom, zoom)
         else:
             self.interpolator = None
-        self.truncator = Truncator()
+        self.truncator = Truncator(1)
 
     @abstractmethod
     def read(self) -> List[List[float]]:
@@ -31,12 +31,10 @@ class SensorDataSource(ABC):
         try:
             while True:
                 sensor_data: list[list[float]] = self.read()
-                # TODO: truncate floats to one decimal place
                 if self.interpolator:
                     sensor_data = self.interpolator.interpolate(sensor_data)
-                truncated_data: list[list[int]] = self.truncator.truncate_to_int(sensor_data)
-                # self.truncator.truncate(sensor_data)
-                formatted_data: str = self.json_wrapper.wrap(truncated_data) + '\n'
+                self.truncator.truncate(sensor_data)
+                formatted_data: str = self.json_wrapper.wrap(sensor_data) + '\n'
                 conn.sendall(formatted_data.encode())
                 time.sleep(.15) # the back pressure. Otherwise, reads get into tight loop
         except (OSError, socket.error) as e:
